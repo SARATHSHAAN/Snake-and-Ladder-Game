@@ -1,0 +1,270 @@
+<body onload = "canvas(0,0)">
+<div class="canvas-container" style="position: relative;width: 1000px;height: 1000px;">
+<canvas id='canvas' width='1500px' height='800px' style="position: absolute;background-color:white"></canvas>
+<button id='button' onclick = "playerPosition()" style="position:absolute;left:100%;top:40%">Roll Dice</button> 
+</div> 
+</body>
+<script>
+var player1=0,player2=0,playerFlag=true;
+function canvas(player1,player2){
+	var myCanvas = document.getElementById("canvas");
+var ctx = myCanvas.getContext("2d");
+var ctxNumber = myCanvas.getContext("2d");
+
+if ( player1 == 0){
+	chip1(10,710);
+}
+if (player2 == 0){
+   chip2(40,710);
+}
+
+  var snake1 = new Image();
+snake1.onload = function(){        
+    ctx.drawImage(snake1,310,30);
+};                                
+snake1.src = "snk2.png"; 
+var snake2 = new Image();
+snake2.onload = function(){        
+    ctx.drawImage(snake2,20,10);
+};                                
+snake2.src = "snk1.png"; 
+var snake3 = new Image();
+snake3.onload = function(){        
+    ctx.drawImage(snake3,10,313);
+};                                
+snake3.src = "snk3.png"; 
+var snake4 = new Image();
+snake4.onload = function(){        
+    ctx.drawImage(snake4,380,230);
+};                                
+snake4.src = "snk2.png"; 
+var snake5 = new Image();
+snake5.onload = function(){        
+    ctx.drawImage(snake5,-10,400);
+};                                
+snake5.src = "snk1.png";
+var ladder1 = new Image();
+ladder1.onload = function(){        
+    ctx.drawImage(ladder1,230,20);
+};                                
+ladder1.src = "ladder1.png"; 
+var ladder2 = new Image();
+ladder2.onload = function(){        
+    ctx.drawImage(ladder2,80,230);
+};                                
+ladder2.src = "ladder2.png"; 
+var ladder3 = new Image();
+ladder3.onload = function(){        
+    ctx.drawImage(ladder3,510,360);
+};                                
+ladder3.src = "ladder3.png";
+var ladder4 = new Image();
+ladder4.onload = function(){        
+    ctx.drawImage(ladder4,580,30);
+};                                
+ladder4.src = "ladder4.png";
+for(let i=0; i<10; i++) {
+    for(let j=0; j<10; j++) {
+      ctx.fillStyle = ((i+j)%2==0) ? "LightPink":"Orange";
+      let xOffset = j*70;
+      let yOffset = i*70;
+	  //k-=1;
+      ctx.fillRect(xOffset, yOffset, 70, 70);
+	  //ctx.fillText(k, xOffset+24,yOffset);
+    }
+  }
+  var l=101;
+for(let i=0; i<10; i++) {
+if(i%2==0){    
+for(let j=0; j<10; j++) {
+	if(l==101){
+	  ctxNumber.fillStyle = "Black";
+      let xOffset = j*70;
+      let yOffset = i*70;
+	  l-=1;
+	  var winner = new Image();
+	  winner.onload = function(){        
+      ctxNumber.drawImage(winner,xOffset+10,yOffset);
+};
+	  winner.src = "winner.png";
+		} else  {
+      ctxNumber.fillStyle = "Black";
+      let xOffset = j*70;
+      let yOffset = i*70;
+	  l-=1;
+	  if(l == player1 || l==player2){
+			if(l==player1){
+			chip1(xOffset+35,yOffset+40);}
+			if(l== player2){
+			chip2(xOffset+10,yOffset+20);}
+		}else {
+	  ctxNumber.fillText(l, xOffset+35,yOffset+40);
+	  ctxNumber.font = "12px Arial";}}
+    }}else{
+for(let m=10; m>0; m--) {
+	if(l==2){
+	ctxNumber.fillStyle = "Black";
+      let xOffset = m*70;
+      let yOffset = i*70;
+	  l-=1;
+	  if(l == player1 || l==player2){
+			if(l==player1){
+			chip1(xOffset-34,yOffset+34);}
+			if(l== player2){
+			chip2(xOffset-44,yOffset);}
+		}
+	  ctxNumber.fillText("START", xOffset-50,yOffset+34);
+	 }else{
+      ctxNumber.fillStyle = "Black";
+      let xOffset = m*70;
+      let yOffset = i*70;
+	  l-=1;
+	  if(l == player1 || l==player2){
+			if(l==player1){
+			chip1(xOffset-34,yOffset+34);}
+			if(l== player2){
+			chip2(xOffset-44,yOffset);}
+		}else {
+	  ctxNumber.fillText(l, xOffset-34,yOffset+34);
+	  ctxNumber.font = "12px Arial";}
+	  }
+    }}
+  }
+  position(player1,player2);
+}
+function rollDice(){
+let diceValue=Math.floor(Math.random() * 6) + 1;
+var myCanvas = document.getElementById("canvas");
+var ctxDice = myCanvas.getContext("2d");
+ctxDice.clearRect(0,0,1500,800);
+ctxDice.fillStyle = "#428a55";
+ctxDice.font = "20px Verdana";
+ctxDice.fillText("Dice Rolled With :"+diceValue, 800,400);
+//canvas(player1,player2);
+return diceValue;
+}
+function chip1(xOffset,yOffset) {
+	//player1
+	  var myCanvas = document.getElementById("canvas");
+	  var ctxChip = myCanvas.getContext("2d");
+	  var player1 = new Image();
+	  player1.onload = function(){        
+      ctxChip.drawImage(player1,xOffset,yOffset);
+};
+	  player1.src = "coin1.png";
+}
+function chip2(xOffset,yOffset){
+		//player2
+      var myCanvas = document.getElementById("canvas");
+	  var ctxChip = myCanvas.getContext("2d");
+      var player2 = new Image();
+	  player2.onload = function(){        
+      ctxChip.drawImage(player2,xOffset,yOffset);
+};
+	  player2.src = "coin2.png"; 
+
+}
+function playerPosition(){
+	var value = rollDice();
+	if(playerFlag == true){
+		player1+=value;
+		playerFlag=false;
+	}
+	else{
+		player2+=value;
+		playerFlag=true;
+	}
+	switch(player1) {
+	//ladder
+	case 13: 
+	player1 = 49;
+	break;
+ 	case 42: 
+	player1 = 62;
+	break;
+	case 44: 
+	player1=96;
+	break;
+	case 50: 
+	player1 = 92;
+	break;
+	
+	//snake
+	case 39: 
+	player1 = 19;
+	break;
+	case 68: 
+	player1 = 14;
+	break;
+	case 60: 
+	player1 = 48;
+	break;
+	case 94: 
+	player1 = 46;
+	break;
+	case 99: 
+	player1 = 63;
+	break;
+	}
+	
+		switch(player2) {
+	//ladder
+	case 13: 
+	player2 = 49;
+	break;
+ 	case 42: 
+	player2 = 62;
+	break;
+	case 44: 
+	player2 = 96;
+	break;
+	case 50: 
+	player2 = 92;
+	break;
+	
+	//snake
+	case 39: 
+	player2 = 19;
+	break;
+	case 68: 
+	player2 = 14;
+	break;
+	case 60: 
+	player2 = 48;
+	break;
+	case 94: 
+	player2 = 46;
+	break;
+	case 99: 
+	player2 = 63;
+	break;
+	}
+	
+	canvas(player1,player2);
+	
+}
+function position(player1,player2){
+var myCanvas = document.getElementById("canvas");
+var ctxPosition = myCanvas.getContext("2d");
+ctxPosition.font = "20px Verdana";
+ctxPosition.fillStyle = "red";
+if (player1<100 && player2<100){
+ctxPosition.fillText("Player 1 Position - "+player1, 800,200);
+ctxPosition.fillText("Player 2 Position - "+player2, 800,300);
+}
+else if (player1 >= 100){
+	var myCanvas = document.getElementById("canvas");
+    var ctxWinner = myCanvas.getContext("2d");
+	ctxWinner.font = "50px Verdana";
+	ctxWinner.fillStyle = "Blue";
+	ctxWinner.fillText("Winner is - Player1",800,200);
+}
+else {
+	var myCanvas = document.getElementById("canvas");
+    var ctxWinner = myCanvas.getContext("2d");
+	ctxWinner.font = "50px Verdana";
+	ctxWinner.fillStyle = "DarkBlue";
+	ctxWinner.fillText("Winner is - Player2",800,200);
+}
+}
+</script>
